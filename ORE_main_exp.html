@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Face experiment (main)</title>
+  <script src="jspsych-6.1.0/jspsych.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+  <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+
+  <script src="utils.js"></script>
+
+  <link rel="stylesheet" href="ORE.css"></link>
+</head>
+<body></body>
+<script>
+
+/* create timeline */
+var timeline = [];
+
+/* define welcome message trial */
+var welcome_block = {
+  type: "html-keyboard-response",
+  stimulus: "<p>Welcome to the <span style='color:black;font-weight:bold'>Face Experiment</span> for Dr. Malania's Expra course.</p>"+
+    "<p>This is the <span style='color:black;font-weight:bold'>main experiment</span>.</p>" +
+  " <p>Press <span style='color:black;font-weight:bold'>any key</span>  to begin.</p>"
+};
+timeline.push(welcome_block);
+
+/* define instructions trial */
+var instructions = {
+  type: "html-keyboard-response",
+  stimulus: "<p>The purpose of the current experiment is to investigate how "+
+  "people perceive <p>"+
+  "<p><span style='color:black;font-weight:bold'>facial expressions</span> of <span style='color:black;font-weight:bold'>Eastern</span> and " +
+  "<span style='color:black;font-weight:bold'>Western</span> faces.</p>" +
+  "<p>--------------</p>" +
+  "<p>On each trial, you will first see a fixation cross, indicating the start of the trial.</p>" +
+  "<p>Please focus on the fixation cross. <span style='color:black;font-weight:bold'>One face</span> will " +
+  "appear after the fixation cross for <span style='color:black;font-weight:bold'>1 second</span>.</p>" +
+  "<p>Later, a <span style='color:black;font-weight:bold'>facial expression questionnaire</span> will be prompted for you to make a judgement. </p>" +
+  "<p>Please press the <span style='color:black;font-weight:bold'>number key</span> corresponding to the expression you perceive. </p>" +
+  "<p>After your answer is recorded, the next trial will begin. </p>" +
+  "<p>--------------</p>" +
+  "<p>There are <span style='color:black;font-weight:bold'>384 trials</span> in total, taking about " +
+  "<span style='color:black;font-weight:bold'>20 minutes</span> to complete. </p>" +
+  "<p> </p>" +
+  "<p></p>" +
+  "<p>When you're ready, press <span style='color:black;font-weight:bold'>any key</span> to enter the experiment. Have fun!</p>",
+  post_trial_gap: 500
+};
+timeline.push(instructions);
+
+
+/* Start and end of the experiment*/
+var begin_exp =  {
+    type: "html-keyboard-response",
+    stimulus: "Experiment is about to begin. Press any key to continue.",
+  };
+timeline.push(begin_exp);
+
+
+
+/* test trials */
+/* LYS: I mean, there gotta be a smarter way to do this, but let's take it as it is for the sampleWithoutReplacement*/
+var test_stimuli = [
+  { stimulus: "PNGImages/a0101a06.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0111b05.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0111d02.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0111f03.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0121c02.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0121e01.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0131g04.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a0201a16.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0211c12.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0211d21.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0211e11.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0221b04.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0221g09.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a0231f13.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0301a04.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0311e12.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0321b04.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0321c22.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0321d14.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0321f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0321g07.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a0501a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0511b03.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0511c07.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0511d18.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0521f10.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0521g01.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a0531e12.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0601a03.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0611b32.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0611g02.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a0621c07.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0621e07.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0621f04.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0631d17.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0701a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0711b01.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0711c19.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0711d14.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0711g02.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a0721e11.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0721f04.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0801a08.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0811d13.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0811g01.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a0821c07.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0821e15.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0821f13.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0831b06.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0901a12.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a0911c09.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a0911f10.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a0921b11.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a0921d17.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a0921e18.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a0921g05.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a1001a03.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a1011c14.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a1011e01.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a1021b07.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a1021d02.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a1021f10.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a1021g02.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a1101a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a1111d29.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a1121b06.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a1121c04.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a1121f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a1121g01.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a1131e13.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a1401a06.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a1411d11.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a1411f14.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a1421b11.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a1421g10.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a1431c14.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a1431e09.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a1501a08.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a1511f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a1521c15.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a1521d07.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a1521e18.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a1521g08.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a1531b01.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a1601a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a1621b05.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a1621c13.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a1621d02.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/a1631e06.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a1631f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a1631g03.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a1701a10.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/a1711b01.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/a1721e13.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/a1721f31.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/a1721g10.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/a1731c02.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/a1731d06.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin001.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin002.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin003.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin004.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin005.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin006.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin007.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin008.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin009.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin010.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin011.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin012.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin013.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin014.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin015.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin017.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin018.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin019.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin020.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin021.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin022.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin023.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin024.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin025.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin026.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin027.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin028.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin029.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin030.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin031.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin032.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin033.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin034.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin036.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin037.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin038.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin039.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin040.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin041.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin042.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin043.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin044.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin045.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin046.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin047.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin048.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin049.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin051.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin052.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin054.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin055.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin056.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin057.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin058.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin060.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin062.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin063.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin064.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin065.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin066.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin067.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin068.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin069.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin070.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin071.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin072.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin074.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin075.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin078.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin080.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin081.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin082.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin083.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin084.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin087.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin088.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin089.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin090.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin091.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin092.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin093.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin094.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin095.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin096.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin097.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin098.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin099.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmin100.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmin102.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmin104.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmin105.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmin107.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmin108.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmin110.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup001.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup002.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup003.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup004.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup005.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup006.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup007.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup008.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup009.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup010.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup011.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup012.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup013.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup014.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup015.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup017.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup018.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup019.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup020.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup021.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup022.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup023.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup024.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup025.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup026.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup027.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup028.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup029.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup030.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup031.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup032.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup033.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup034.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup036.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup037.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup038.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup039.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup040.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup041.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup042.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup043.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup044.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup045.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup046.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup047.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup048.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup049.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup051.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup052.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup054.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup055.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup056.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup057.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup058.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup060.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup062.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup063.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup064.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup065.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup066.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup067.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup068.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup069.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup070.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup071.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup072.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup074.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup075.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup078.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup080.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup081.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup082.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup083.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup084.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup087.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup088.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup089.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup090.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup091.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup092.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup093.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup094.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup095.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup096.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup097.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup098.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup099.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/ekmup100.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/ekmup102.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/ekmup104.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/ekmup105.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/ekmup107.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/ekmup108.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/ekmup110.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0101a06.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0111b05.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0111d02.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0111f03.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0121c02.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0121e01.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0131g04.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i0201a16.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0211c12.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0211d21.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0211e11.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0221b04.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0221g09.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i0231f13.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0301a04.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0311e12.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0321b04.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0321c22.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0321d14.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0321f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0321g07.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i0501a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0511b03.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0511c07.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0511d18.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0521f10.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0521g01.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i0531e12.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0601a03.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0611b32.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0611g02.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i0621c07.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0621e07.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0621f04.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0631d17.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0701a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0711b01.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0711c19.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0711d14.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0711g02.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i0721e11.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0721f04.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0801a08.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0811d13.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0811g01.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i0821c07.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0821e15.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0821f13.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0831b06.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0901a12.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i0911c09.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i0911f10.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i0921b11.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i0921d17.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i0921e18.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i0921g05.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i1001a03.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i1011c14.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i1011e01.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i1021b07.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i1021d02.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i1021f10.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i1021g02.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i1101a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i1111d29.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i1121b06.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i1121c04.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i1121f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i1121g01.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i1131e13.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i1401a06.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i1411d11.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i1411f14.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i1421b11.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i1421g10.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i1431c14.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i1431e09.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i1501a08.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i1511f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i1521c15.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i1521d07.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i1521e18.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i1521g08.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i1531b01.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i1601a02.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i1621b05.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i1621c13.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i1621d02.png", data: { test_part: 'test', correct_response: '3'} },
+  { stimulus: "PNGImages/i1631e06.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i1631f02.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i1631g03.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i1701a10.png", data: { test_part: 'test', correct_response: '7'} },
+  { stimulus: "PNGImages/i1711b01.png", data: { test_part: 'test', correct_response: '1'} },
+  { stimulus: "PNGImages/i1721e13.png", data: { test_part: 'test', correct_response: '4'} },
+  { stimulus: "PNGImages/i1721f31.png", data: { test_part: 'test', correct_response: '5'} },
+  { stimulus: "PNGImages/i1721g10.png", data: { test_part: 'test', correct_response: '6'} },
+  { stimulus: "PNGImages/i1731c02.png", data: { test_part: 'test', correct_response: '2'} },
+  { stimulus: "PNGImages/i1731d06.png", data: { test_part: 'test', correct_response: '3'} }
+
+
+];
+
+
+var fixation = {
+  type: 'html-keyboard-response',
+  stimulus: '<div style="font-size:60px;">+</div>',
+  choices: jsPsych.NO_KEYS,
+  trial_duration: function(){
+    return jsPsych.randomization.sampleWithoutReplacement([750, 875, 1000, 1250, 1375], 1)[0];
+  },
+  data: {test_part: 'fixation'}
+}
+
+var test = {
+  type: "image-keyboard-response",
+  stimulus: jsPsych.timelineVariable('stimulus'),
+  choices: jsPsych.NO_KEYS,
+  data: jsPsych.timelineVariable('data'),
+  trial_duration: 1000
+}
+
+var expression_question = {
+  type: "image-keyboard-response",
+  stimulus: "IntroImg/ratingC_1.png",
+  choices: ['1', '2', '3', '4', '5', '6', '7'],
+  data: jsPsych.timelineVariable('data'),
+  data: {test_part: 'expression_question'}
+}
+
+/* Sadly, I cannot find a way to compare the response in the expression_question
+with the correct_response in the test. I'll just have to deal with it in the data.*/
+var test_procedure = {
+  timeline: [fixation, test, expression_question],
+  timeline_variables: test_stimuli,
+  randomize_order: true,
+}
+timeline.push(test_procedure);
+
+/* define debrief */
+var end_exp = {
+    type: "html-keyboard-response",
+    stimulus: "Experiment complete! Press any key to end the program.",
+  };
+timeline.push(end_exp);
+
+
+/* start the experiment */
+jsPsych.init({
+  timeline: timeline,
+  on_finish: function() {
+    var csv = jsPsych.data.get().csv();
+    var filename = "ORE_exp.csv";
+    downloadCSV(csv, filename),
+    jsPsych.data.displayData();
+  }
+
+  // on_finish: function() {
+  //   jsPsych.data.displayData();
+  // }
+});
+</script>
+</html>
